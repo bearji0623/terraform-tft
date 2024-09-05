@@ -20,5 +20,5 @@ variable "public_subnets" {
 
 variable "private_subnets" {
   description = "CIDR blocks for the private subnets"
-  default     = ["10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24", "10.10.6.0/24"]
+  default     = ["10.10.3.0/24", "10.10.4.0/24", "10.10.5.0/24", "10.10.6.0/24", "10.10.7.0/24", "10.10.8.0/24"]
 }
