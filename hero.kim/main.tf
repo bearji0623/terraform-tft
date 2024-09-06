@@ -14,3 +14,9 @@ module "ec2" {
   bastion_sg_id          = module.security_groups.bastion_sg_id
   web_sg_id              = module.security_groups.web_sg_id
 }
+
+module "s3" {
+  source                     = "./s3"
+  bucket_web                 = "bucket-web-trio"
+  cloudfront_distribution_arn = module.cdn.cloudfront_distribution_arn
+}
