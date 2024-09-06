@@ -79,7 +79,7 @@ module "ec2_instance4" {
   key_name               = var.key_name
   vpc_security_group_ids = [var.web_sg_id]
   subnet_id              = element(var.private_subnets, 3)
-  user_data              = base64encode(templatefile("${path.module}/tomcat1.tf", { AWS_REGION = var.aws_region }))
+  user_data              = base64encode(templatefile("${path.module}/tomcat1.sh", { AWS_REGION = var.aws_region }))
 
   tags = {
     Manageby = "Terraform"

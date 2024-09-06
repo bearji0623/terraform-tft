@@ -17,6 +17,4 @@ module "ec2" {
 
 module "s3" {
   source                     = "./s3"
-  bucket_web                 = "bucket-web-trio"
-  cloudfront_distribution_arn = module.cdn.cloudfront_distribution_arn
 }
