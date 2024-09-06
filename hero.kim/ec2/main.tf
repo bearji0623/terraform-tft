@@ -51,3 +51,38 @@ module "ec2_instance2" {
     Manageby = "Terraform"
   }
 }
+
+module "ec2_instance3" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+
+  name = "WAS1"
+
+  ami                    = var.ami_id
+  instance_type          = var.instance_type_was
+  key_name               = var.key_name
+  vpc_security_group_ids = [var.web_sg_id]
+  subnet_id              = element(var.private_subnets, 2)
+  user_data              = base64encode(templatefile("${path.module}/tomcat.sh", { AWS_REGION = var.aws_region }))
+
+  tags = {
+    Manageby = "Terraform"
+  }
+}
+
+module "ec2_instance4" {
+  source  = "terraform-aws-modules/ec2-instance/aws"
+
+  name = "WAS2"
+
+  ami                    = var.ami_id
+  instance_type          = var.instance_type_was
+  key_name               = var.key_name
+  vpc_security_group_ids = [var.web_sg_id]
+  subnet_id              = element(var.private_subnets, 3)
+  user_data              = base64encode(templatefile("${path.module}/tomcat1.tf", { AWS_REGION = var.aws_region }))
+
+  tags = {
+    Manageby = "Terraform"
+  }
+}
+
