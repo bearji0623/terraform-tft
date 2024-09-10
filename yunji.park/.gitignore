@@ -1,0 +1,4 @@
+.gitignore
+terraform.exe
+v1/.terraform/
+v2/.terraform/
