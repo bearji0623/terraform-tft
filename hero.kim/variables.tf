@@ -13,15 +13,5 @@ variable "ami_id" {
   default     = "ami-00ff737803101edd1"
 }
 
-variable "instance_type_bastion" {
-  description = "Instance type for the Bastion host"
-  default     = "t2.micro"
-}
-
-variable "instance_type_was" {
-  description = "Instance type for the WAS host"
-  default     = "t3.medium"
-}
-
 #################################
 

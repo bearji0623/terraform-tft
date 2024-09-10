@@ -18,3 +18,11 @@ module "ec2" {
 module "s3" {
   source                     = "./s3"
 }
+
+module "dev" {
+  source = "./iam/dev"
+}
+
+module "prod" {
+  source = "./iam/prod"
+}

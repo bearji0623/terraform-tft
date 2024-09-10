@@ -1,6 +1,6 @@
 variable "vpc_name" {
   description = "CIDR block for the VPC"
-  default     = "TT-module"
+  default     = "94102108-TFT"
 }
 
 variable "vpc_cidr" {

@@ -9,6 +9,11 @@ output "web_private_ip" {
 }
 
 output "ec2_instance1_id" {
-  description = "The ID of the WAS EC2 instance"
+  description = "The ID of the WEB EC2 instance"
   value       = module.ec2_instance1.id
+}
+
+output "ec2_instance2_id" {
+  description = "The ID of the WEB EC2 instance"
+  value       = module.ec2_instance2.id
 }
