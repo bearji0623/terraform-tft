@@ -1,4 +1,4 @@
 .gitignore
 terraform.exe
-first/.terraform/
-second/.terraform/
+v1/.terraform/
+v2/.terraform/
