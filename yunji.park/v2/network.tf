@@ -2,7 +2,7 @@ module "network" {
     source = "./module/network"
     
     # VPC
-    vpc_cidr_block = "10.0.0.0/24"
+    vpc_cidr_block = "10.0.0.0/16"
     vpc_name = "${var.name}-terraform-vpc"
 
     # PUBLIC SUBNET
