@@ -29,6 +29,18 @@ resource "aws_lb_listener" "alb" {
   }
 }
 
+resource "aws_lb_listener" "http" {
+  load_balancer_arn = aws_lb.alb.arn
+  port              = 443   # ALB 리스너 포트
+  protocol          = "HTTPS" # ALB 리스너 프로토콜
+  ssl_policy        = "ELBSecurityPolicy-2016-08"
+  certificate_arn   = data.aws_acm_certificate.acm.arn
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.atg.arn
+  }
+}
+
 ## ALB_대상 그룹
 resource "aws_lb_target_group" "atg" {
   name                 = "${var.name}-ALB"
@@ -74,4 +86,10 @@ resource "aws_lb_target_group_attachment" "tft2" {
   target_group_arn = aws_lb_target_group.atg.arn
   target_id        = var.target_instance_ids[1]  # 두 번째 인스턴스 ID 사용
   port             = 80
+}
+
+# ACM 인증서 요청
+data "aws_acm_certificate" "acm" {
+  domain   = "*.btiucloud.com"  # ACM 인증서에 연결된 도메인 이름
+  most_recent = true  # 최신의 인증서를 선택
 }

@@ -31,3 +31,13 @@ output "ec2_instance2_id" {
   description = "The ID of the WEB EC2 instance"
   value       = module.ec2_instance2.id
 }
+
+output "ec2_instance3_id" {
+  description = "The ID of the WAS EC2 instance"
+  value       = module.ec2_instance3.id
+}
+
+output "ec2_instance4_id" {
+  description = "The ID of the WAS EC2 instance"
+  value       = module.ec2_instance4.id
+}

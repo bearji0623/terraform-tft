@@ -5,6 +5,8 @@ module "vpc" {
 module "security_groups" {
   source  = "./sg"
   vpc_id  = module.vpc.vpc_id
+  was_ip  = module.ec2.was_ip
+  was1_ip = module.ec2.was1_ip  
 }
 
 module "ec2" {
@@ -22,6 +24,13 @@ module "alb" {
   alb_sg_id              = module.security_groups.alb_sg_id
   target_instance_ids    = [module.ec2.ec2_instance1_id, module.ec2.ec2_instance2_id]
   bucket_id              = module.s3.bucket_id
+}
+
+module "nlb" {
+  source                 = "./nlb"
+  vpc_id                 = module.vpc.vpc_id
+  private_subnets        = slice(module.vpc.private_subnets, 0, 2)
+  target_instance_ids    = [module.ec2.ec2_instance3_id, module.ec2.ec2_instance4_id]
 }
 
 module "s3" {
