@@ -43,7 +43,7 @@ resource "aws_security_group" "WEB" {
     to_port     = 80
     protocol    = "tcp"
     description = "Allow access from ALB"
-    security_groups = [aws_security_group.Bastion.id]
+    security_groups = [aws_security_group.ALB.id]
   }
 
   egress {

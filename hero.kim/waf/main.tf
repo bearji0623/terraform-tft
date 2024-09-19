@@ -1,7 +1,21 @@
+terraform {
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+      configuration_aliases = [aws.virginia]
+    }
+  }
+}
+
+provider "aws" {
+  alias   = "virginia"
+  region  = "us-east-1"
+}
+
 resource "aws_wafv2_ip_set" "ipset" {
   name               = "${var.name}-ipset"
   description        = "IPSet for ${var.name}"
-  scope              = "REGIONAL"  # ALB와 연동할 때는 "REGIONAL"이어야 합니다.
+  scope              = "CLOUDFRONT"  # ALB와 연동할 때는 "REGIONAL"이어야 합니다.
   ip_address_version = "IPV4"
   addresses          = ["165.243.5.20/32"]  # 허용 또는 차단할 IP 주소 목록
 
@@ -12,7 +26,7 @@ resource "aws_wafv2_ip_set" "ipset" {
 
 resource "aws_wafv2_web_acl" "waf" {
   name        = "${var.name}-WAF"
-  scope       = "REGIONAL"
+  scope       = "CLOUDFRONT"
   description = "Web ACL for ${var.name} ALB"
   default_action {
     block {}
@@ -47,9 +61,4 @@ resource "aws_wafv2_web_acl" "waf" {
   tags = {
     Name = "${var.name}-WAF"
   }  
-}
-
-resource "aws_wafv2_web_acl_association" "waf" {
-  resource_arn = var.alb_arn
-  web_acl_arn   = aws_wafv2_web_acl.waf.arn
 }

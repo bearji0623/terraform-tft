@@ -43,3 +43,8 @@ variable "bastion_sg_id" {
 variable "web_sg_id" {
   description = "Security group ID for WEB"
 }
+
+variable "nlb_dns_name" {
+  description = "The DNS name of the Network Load Balancer"
+  type        = string
+}

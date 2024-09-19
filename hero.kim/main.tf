@@ -15,6 +15,7 @@ module "ec2" {
   private_subnets        = module.vpc.private_subnets
   bastion_sg_id          = module.security_groups.bastion_sg_id
   web_sg_id              = module.security_groups.web_sg_id
+  nlb_dns_name           = module.nlb.nlb_dns_name  
 }
 
 module "alb" {
@@ -45,10 +46,34 @@ module "route53" {
   alb_hosted_zone_id                       = module.alb.alb_zone_id
 }
 
+module "cdn" {
+  source                      = "./cf"
+  aliases                     = ["94102108.btiucloud.com"]
+  acm_certificate_arn         = data.aws_acm_certificate.acm.arn
+  default_origin_domain_name  = "bucket-web-trio.s3.ap-northeast-2.amazonaws.com"
+  s3_origin_domain_name       = module.s3.web_bucket_domain_nam
+  bucket_id                   = module.s3.bucket.id
+  alb_dns_name                = module.alb.alb_dns_name
+  web_acl_id                  = module.waf.cloudfront_web_acl_arn
+}
+
+
+module "waf" {
+  source = "./waf"
+  providers = {
+    aws = aws.virginia
+  }
+}
+
 module "dev" {
   source = "./iam/dev"
 }
 
 module "prod" {
   source = "./iam/prod"
+}
+
+data "aws_acm_certificate" "acm" {
+  domain   = "*.btiucloud.com"  # ACM 인증서에 연결된 도메인 이름
+  most_recent = true  # 최신의 인증서를 선택
 }

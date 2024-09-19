@@ -10,3 +10,8 @@ provider "aws" {
   region = "ap-northeast-2"
   alias  = "seoul"
 }
+
+provider "aws" {
+  region = "us-east-1"
+  alias  = "virginia"
+}
