@@ -15,6 +15,15 @@ module "ec2" {
   web_sg_id              = module.security_groups.web_sg_id
 }
 
+module "alb" {
+  source                 = "./alb"
+  vpc_id                 = module.vpc.vpc_id
+  public_subnets         = module.vpc.public_subnets
+  alb_sg_id              = module.security_groups.alb_sg_id
+  target_instance_ids    = [module.ec2.ec2_instance1_id, module.ec2.ec2_instance2_id]
+  bucket_id              = module.s3.bucket_id
+}
+
 module "s3" {
   source                     = "./s3"
 }
