@@ -37,6 +37,14 @@ module "s3" {
   source                     = "./s3"
 }
 
+module "route53" {
+  source                                   = "./r53"
+  route53_zone_id                          = "Z0668592GCRH4LPCX73B"
+  domain_name                              = "94102108.btiucloud.com"
+  alb_domain_name                          = module.alb.alb_dns_name
+  alb_hosted_zone_id                       = module.alb.alb_zone_id
+}
+
 module "dev" {
   source = "./iam/dev"
 }
