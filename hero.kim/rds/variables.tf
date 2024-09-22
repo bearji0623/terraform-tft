@@ -1,7 +1,7 @@
 variable "identifier" {
   description = "Name for an automatically created database on cluster creation"
   type        = string
-  default     = "db"
+  default     = "tftdb"
 }
 
 variable "engine" {
@@ -37,7 +37,7 @@ variable "allocated_storage" {
 variable "db_name" {
   description = "Database name to use at master instance"
   type        = string
-  default     = "db"
+  default     = "hero"
 }
 
 variable "user_name" {

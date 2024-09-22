@@ -17,6 +17,7 @@ module "db" {
   iam_database_authentication_enabled = true
   auto_minor_version_upgrade          = false
   multi_az                            = false
+  skip_final_snapshot  = true
 
   vpc_security_group_ids = [var.rds_sg_id]
 
