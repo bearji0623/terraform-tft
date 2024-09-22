@@ -13,7 +13,6 @@ module "vpc" {
   one_nat_gateway_per_az    = false
 
   tags = {
-    Manageby    = "Terraform"
-    Environment = "Trio"
+    Manageby = "Terraform"
   }
 }
