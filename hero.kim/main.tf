@@ -38,25 +38,19 @@ module "s3" {
   source                     = "./s3"
 }
 
+module "rds" {
+  source                = "./rds"
+  private_subnets        = module.vpc.private_subnets
+  rds_sg_id              = module.security_groups.rds_sg_id  
+}
+
 module "route53" {
   source                                   = "./r53"
   route53_zone_id                          = "Z0668592GCRH4LPCX73B"
-  domain_name                              = "94102108.btiucloud.com"
+  domain_name                              = "94102108-tft.btiucloud.com"
   alb_domain_name                          = module.alb.alb_dns_name
   alb_hosted_zone_id                       = module.alb.alb_zone_id
 }
-
-module "cdn" {
-  source                      = "./cf"
-  aliases                     = ["94102108.btiucloud.com"]
-  acm_certificate_arn         = data.aws_acm_certificate.acm.arn
-  default_origin_domain_name  = "bucket-web-trio.s3.ap-northeast-2.amazonaws.com"
-  s3_origin_domain_name       = module.s3.web_bucket_domain_nam
-  bucket_id                   = module.s3.bucket.id
-  alb_dns_name                = module.alb.alb_dns_name
-  web_acl_id                  = module.waf.cloudfront_web_acl_arn
-}
-
 
 module "waf" {
   source = "./waf"

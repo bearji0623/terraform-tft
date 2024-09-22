@@ -15,5 +15,5 @@ variable "target_instance_ids" {
 
 variable "name" {
   description = "The name of the resource"
-  default     = "94102108-laC-TFT"
+  default     = "94102108-TFT"
 }

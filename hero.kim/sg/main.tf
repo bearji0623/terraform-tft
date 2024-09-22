@@ -96,6 +96,40 @@ resource "aws_security_group" "WAS" {
   }
 }
 
+#RDS 보안그룹 생성
+resource "aws_security_group" "RDS" {
+  name        = "${var.name}-RDS"
+  description = "Security Group for RDS"
+  vpc_id      = var.vpc_id
+
+  ingress {
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    description = "Allow access from WAS"
+    security_groups = [aws_security_group.WAS.id]
+  }
+  
+  ingress {
+    from_port   = 3306
+    to_port     = 3306
+    protocol    = "tcp"
+    description = "Allow access from WAS"
+    security_groups = [aws_security_group.WAS.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"  // -1 means all protocols
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Manageby = "Terraform"
+  }
+}
+
 #ALB 보안그룹 생성
 resource "aws_security_group" "ALB" {
   name        = "${var.name}-ALB"
