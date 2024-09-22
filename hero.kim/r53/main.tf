@@ -1,9 +1,9 @@
-data "aws_route53_zone" "selected" {
+data "aws_route53_zone" "r53" {
   zone_id = var.route53_zone_id
 }
 
 resource "aws_route53_record" "alb" {
-  zone_id = data.aws_route53_zone.selected.zone_id
+  zone_id = data.aws_route53_zone.r53.zone_id
   name    = var.domain_name
   type    = "A"
 

@@ -17,3 +17,8 @@ module "s3_bucket_for_logs" {
     Manageby = "Terraform"
   }
 }
+
+resource "aws_s3_object" "test" {
+  bucket = module.s3_bucket_for_logs.s3_bucket_id
+  key    = "test/"
+}

@@ -23,11 +23,6 @@ variable "alb_dns_name" {
   type        = string
 }
 
-variable "bucket_id" {
-  description = "The ID of the S3."
-  type        = string
-}
-
 # 필요한 다른 변수들도 여기에 추가합니다.
 variable "web_acl_id" {
   description = "The ARN of the WAFv2 Web ACL to associate with the CloudFront distribution"

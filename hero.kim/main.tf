@@ -47,9 +47,28 @@ module "rds" {
 module "route53" {
   source                                   = "./r53"
   route53_zone_id                          = "Z0668592GCRH4LPCX73B"
-  domain_name                              = "94102108-tft.btiucloud.com"
+  domain_name                              = "94102108.btiucloud.com"
   alb_domain_name                          = module.alb.alb_dns_name
   alb_hosted_zone_id                       = module.alb.alb_zone_id
+}
+
+module "acm" {
+  source          = "./acm"
+  providers       = {
+    aws.virginia = aws.virginia
+  }
+  domain_name     = "94102108.btiucloud.com"
+  route53_zone_id = "Z0668592GCRH4LPCX73B"
+}
+
+module "cdn" {
+  source                      = "./cf"
+  aliases                     = ["94102108.btiucloud.com"]
+  acm_certificate_arn         = module.acm.acm_certificate_arn_virginia
+  default_origin_domain_name  = "94102108-tft-s3.s3.ap-northeast-2.amazonaws.com"
+  s3_origin_domain_name       = module.s3.web_bucket_domain_name
+  alb_dns_name                = module.alb.alb_dns_name
+  web_acl_id                  = module.waf.cloudfront_web_acl_arn
 }
 
 module "waf" {
