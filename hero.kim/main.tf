@@ -5,8 +5,8 @@ module "vpc" {
 module "security_groups" {
   source  = "./sg"
   vpc_id  = module.vpc.vpc_id
-  was_ip  = module.ec2.was_ip
-  was1_ip = module.ec2.was1_ip  
+  web_ip  = module.ec2.web_ip
+  web1_ip = module.ec2.web1_ip  
 }
 
 module "ec2" {
@@ -15,6 +15,7 @@ module "ec2" {
   private_subnets        = module.vpc.private_subnets
   bastion_sg_id          = module.security_groups.bastion_sg_id
   web_sg_id              = module.security_groups.web_sg_id
+  was_sg_id              = module.security_groups.was_sg_id
   nlb_dns_name           = module.nlb.nlb_dns_name  
 }
 
@@ -40,8 +41,9 @@ module "s3" {
 
 module "rds" {
   source                = "./rds"
+  vpc_id                 = module.vpc.vpc_id
   private_subnets        = module.vpc.private_subnets
-  rds_sg_id              = module.security_groups.rds_sg_id  
+  rds_sg_id              = module.security_groups.rds_sg_id 
 }
 
 module "route53" {

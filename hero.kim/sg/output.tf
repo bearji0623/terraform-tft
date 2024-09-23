@@ -8,6 +8,11 @@ output "web_sg_id" {
   value       = aws_security_group.WEB.id
 }
 
+output "was_sg_id" {
+  description = "The ID of the WEB security group"
+  value       = aws_security_group.WAS.id
+}
+
 output "alb_sg_id" {
   description = "The ID of the ALB security group"
   value       = aws_security_group.ALB.id

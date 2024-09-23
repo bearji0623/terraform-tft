@@ -20,7 +20,6 @@ LoadModule proxy_http_module modules/mod_proxy_http.so"
 
 # Configure the VirtualHost with NLB DNS
 echo "<VirtualHost *:80>
-  ServerAdmin dev.nakanara.com
   ProxyRequests off
   ProxyPreserveHost On
   ProxyPass / http://${NLB_DNS_NAME}:8080/ acquire=3000 timeout=600 Keepalive=On

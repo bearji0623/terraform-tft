@@ -1,7 +1,7 @@
 variable "identifier" {
   description = "Name for an automatically created database on cluster creation"
   type        = string
-  default     = "tftdb"
+  default     = "woong-lac-tft-db"
 }
 
 variable "engine" {
@@ -37,19 +37,19 @@ variable "allocated_storage" {
 variable "db_name" {
   description = "Database name to use at master instance"
   type        = string
-  default     = "hero"
+  default     = "db"
 }
 
 variable "user_name" {
   description = "User name to use at master instance"
   type        = string
-  default     = "admin"
+  default     = "db"
 }
 
 variable "password" {
   description = "Password to use at master instance"
   type        = string
-  default     = "a123456789"
+  default     = "123456789"
 }
 
 variable "db_subnet_group_name" {
@@ -65,5 +65,10 @@ variable "private_subnets" {
 
 variable "rds_sg_id" {
   description = "The ID of the RDS security group"
+  type        = string
+}
+
+variable "vpc_id" {
+  description = "The ID of the VPC"
   type        = string
 }

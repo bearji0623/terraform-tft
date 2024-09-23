@@ -17,7 +17,7 @@ resource "aws_wafv2_ip_set" "ipset" {
   description        = "IPSet for ${var.name}"
   scope              = "CLOUDFRONT"  # ALB와 연동할 때는 "REGIONAL"이어야 합니다.
   ip_address_version = "IPV4"
-  addresses          = ["121.162.172.19/32"]  # 허용 또는 차단할 IP 주소 목록
+  addresses          = ["165.243.5.20/32"]  # 허용 또는 차단할 IP 주소 목록
 
   tags = {
     Name = "${var.name}-IPset"

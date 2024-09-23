@@ -3,10 +3,10 @@ module "db" {
 
   identifier = var.identifier
 
-  engine            = var.engine
-  engine_version    = var.engine_version
-  instance_class    = var.instance_class
-  allocated_storage = var.allocated_storage
+  engine                = var.engine
+  engine_version        = var.engine_version
+  instance_class        = var.instance_class
+  allocated_storage     = var.allocated_storage
   db_subnet_group_name  = aws_db_subnet_group.subnet_group.name
 
   db_name   = var.db_name
@@ -14,10 +14,9 @@ module "db" {
   password  = var.password
   port      = var.port
 
-  iam_database_authentication_enabled = true
   auto_minor_version_upgrade          = false
   multi_az                            = false
-  skip_final_snapshot  = true
+  skip_final_snapshot                 = true
 
   vpc_security_group_ids = [var.rds_sg_id]
 
@@ -34,10 +33,10 @@ module "db" {
 
 # DB 서브넷 그룹 생성
 resource "aws_db_subnet_group" "subnet_group" {
-  name       = var.db_subnet_group_name
-  description = "Mysql DB Subnet Group"
+  name         = var.db_subnet_group_name
+  description  = "Mysql DB Subnet Group"
   
-  subnet_ids = slice(var.private_subnets, 4, 6)   # 사용할 서브넷 목록
+  subnet_ids   = slice(var.private_subnets, 4, 6)   # 사용할 서브넷 목록
   
   tags = {
     Manageby = "Terraform"

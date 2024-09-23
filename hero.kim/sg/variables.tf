@@ -9,12 +9,12 @@ variable "bastion_cidr" {
   default     = ["27.122.140.10/32", "165.243.5.20/32"]
 }
 
-variable "was_ip" {
+variable "web_ip" {
   description = "IP address of the WAS instance"
   type        = string
 }
 
-variable "was1_ip" {
+variable "web1_ip" {
   description = "IP address of the second WAS instance"
   type        = string
 }

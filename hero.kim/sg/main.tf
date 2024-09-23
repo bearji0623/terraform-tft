@@ -77,7 +77,7 @@ resource "aws_security_group" "WAS" {
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
-    cidr_blocks = ["${var.was_ip}/32", "${var.was1_ip}/32"]
+    cidr_blocks = ["${var.web_ip}/32", "${var.web1_ip}/32"]
   }  
 
   egress {
@@ -101,14 +101,6 @@ resource "aws_security_group" "RDS" {
   name        = "${var.name}-RDS"
   description = "Security Group for RDS"
   vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    description = "Allow access from WAS"
-    security_groups = [aws_security_group.WAS.id]
-  }
   
   ingress {
     from_port   = 3306
