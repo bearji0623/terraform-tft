@@ -16,6 +16,7 @@ module "db" {
 
   auto_minor_version_upgrade          = false
   multi_az                            = false
+  manage_master_user_password         = false
   skip_final_snapshot                 = true
 
   vpc_security_group_ids = [var.rds_sg_id]
