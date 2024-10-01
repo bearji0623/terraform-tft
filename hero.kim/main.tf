@@ -37,6 +37,7 @@ module "nlb" {
 
 module "s3" {
   source                     = "./s3"
+  cloudfront_distribution_arn   = module.cdn.cloudfront_distribution_arn
 }
 
 module "rds" {

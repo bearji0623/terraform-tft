@@ -11,7 +11,7 @@ module "s3_bucket_for_logs" {
   control_object_ownership = true
   object_ownership         = "ObjectWriter"
 
-  attach_elb_log_delivery_policy = true
+  attach_elb_log_delivery_policy = false
 
   tags = {
     Manageby = "Terraform"
@@ -21,4 +21,47 @@ module "s3_bucket_for_logs" {
 resource "aws_s3_object" "test" {
   bucket = module.s3_bucket_for_logs.s3_bucket_id
   key    = "test/"
+}
+
+resource "aws_s3_bucket_policy" "bucket_policy_web" {
+  bucket = module.s3_bucket_for_logs.s3_bucket_id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Sid = "ELBRegionAp-Northeast-2",
+        Effect = "Allow",
+        Principal = {
+          AWS = "arn:aws:iam::600734575887:root"
+        },
+        Action = "s3:PutObject",
+        Resource = "arn:aws:s3:::${module.s3_bucket_for_logs.s3_bucket_id}/alb-logs/*"
+      },
+      {
+        Sid = "AllowLogDelivery",
+        Effect = "Allow",
+        Principal = {
+          Service = "logdelivery.elasticloadbalancing.amazonaws.com"
+        },
+        Action = "s3:PutObject",
+        Resource = "arn:aws:s3:::${module.s3_bucket_for_logs.s3_bucket_id}/alb-logs/*"
+      },
+      {
+        Sid = "AllowCloudFrontServicePrincipal",
+        Effect = "Allow",
+        Principal = {
+          Service = "cloudfront.amazonaws.com"
+        },
+        Action = "s3:GetObject",
+        Resource = "arn:aws:s3:::${module.s3_bucket_for_logs.s3_bucket_id}/*",
+        Condition = {
+          StringEquals = {
+            "AWS:SourceArn" = var.cloudfront_distribution_arn
+          }
+        }
+      }
+    ]
+  })
+
 }
