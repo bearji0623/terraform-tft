@@ -19,8 +19,11 @@
 - public_subnets : 사용자가 사용할 퍼블릭 범위나 갯수 -> 현재 2개
 - private_subnets : 사용자가 사용할 프라이빗 범위나 갯수 -> 현재 6개
 - nat_gateway : 기본값은 true
+
     enable_nat_gateway : nat_gateway를 사용 할 것인지?
+
     single_nat_gateway : nat_gateway를 1개 사용할 것인지?
+
     one_nat_gateway_per_az : 가용영역 당 nat_gateway를 사용할 것인지?
 
 ### outputs.tf
