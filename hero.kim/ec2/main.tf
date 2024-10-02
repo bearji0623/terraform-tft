@@ -27,7 +27,7 @@ module "ec2_instance1" {
   key_name               = var.key_name
   vpc_security_group_ids = [var.web_sg_id]
   subnet_id              = element(var.private_subnets, 0)
-  user_data              = templatefile("${path.module}/apache.sh.tpl", {NLB_DNS_NAME = var.nlb_dns_name})
+  user_data              = base64encode(templatefile("${path.module}/apache.sh.tpl", {NLB_DNS_NAME = var.nlb_dns_name}))
 
   tags = {
     Manageby = "Terraform"
@@ -45,7 +45,7 @@ module "ec2_instance2" {
   key_name               = var.key_name
   vpc_security_group_ids = [var.web_sg_id]
   subnet_id              = element(var.private_subnets, 1)
-  user_data              = templatefile("${path.module}/apache1.sh.tpl", {NLB_DNS_NAME = var.nlb_dns_name})
+  user_data              = base64encode(templatefile("${path.module}/apache1.sh.tpl", {NLB_DNS_NAME = var.nlb_dns_name}))
 
   tags = {
     Manageby = "Terraform"
@@ -62,7 +62,7 @@ module "ec2_instance3" {
   key_name               = var.key_name
   vpc_security_group_ids = [var.was_sg_id]
   subnet_id              = element(var.private_subnets, 2)
-  user_data              = templatefile("${path.module}/tomcat.sh", { AWS_REGION = var.aws_region })
+  user_data              = base64encode(templatefile("${path.module}/tomcat.sh", { AWS_REGION = var.aws_region }))
 
   tags = {
     Manageby = "Terraform"
@@ -79,7 +79,7 @@ module "ec2_instance4" {
   key_name               = var.key_name
   vpc_security_group_ids = [var.was_sg_id]
   subnet_id              = element(var.private_subnets, 3)
-  user_data              = templatefile("${path.module}/tomcat1.sh", { AWS_REGION = var.aws_region })
+  user_data              = base64encode(templatefile("${path.module}/tomcat1.sh", { AWS_REGION = var.aws_region }))
 
   tags = {
     Manageby = "Terraform"
