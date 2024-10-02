@@ -1,24 +1,47 @@
-resource "aws_cloudfront_distribution" "cdn" {
+module "cdn" {
+  source  = "terraform-aws-modules/cloudfront/aws"
+  version = "2.3.0"
+
+  aliases = var.aliases
+  comment             = "CloudFront_TFT"
   enabled             = true
   is_ipv6_enabled     = true
-  comment             = "CloudFront_TFT"
   price_class         = "PriceClass_200"
   retain_on_delete    = false
   wait_for_deployment = false
   web_acl_id          = var.web_acl_id
-  default_root_object = "index.html"
 
-  origin {
-    domain_name              = var.s3_origin_domain_name
-    origin_id                = "94102108-tft-s3"
-    origin_path              = "/test"
-    origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
+  default_cache_behavior = {
+    target_origin_id       = "94102108-tft-s3"
+    viewer_protocol_policy = "redirect-to-https"
+
+    allowed_methods = ["GET", "HEAD"]
+    cached_methods  = ["GET", "HEAD"]
+    compress        = true
+    query_string    = true
+
+    forwarded_values = {
+      query_string = false
+      cookies = {
+        forward = "none"
+      }
+    }
   }
 
-  origin {
+  origin = [
+  {
+    domain_name = var.s3_origin_domain_name
+    origin_id   = "94102108-tft-s3"
+    origin_path = "/test"  # S3 원본의 루트 경로 사용 또는 유효한 경로 지정
+    s3_oac = {
+      domain_name              = var.s3_origin_domain_name
+      origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
+    }
+  },
+  {
     domain_name = var.alb_dns_name
     origin_id   = "94102108-TFT-ALB"
-    custom_origin_config {
+    custom_origin_config = {
       http_port                = 80
       https_port               = 443
       origin_protocol_policy   = "http-only"
@@ -26,73 +49,46 @@ resource "aws_cloudfront_distribution" "cdn" {
       origin_keepalive_timeout = 5
       origin_read_timeout      = 30
     }
+    # ALB 원본에는 origin_path를 설정하지 않음
   }
+]
 
-  default_cache_behavior {
-    target_origin_id       = "94102108-tft-s3"
-    viewer_protocol_policy = "redirect-to-https"
-
-    allowed_methods = ["GET", "HEAD"]
-    cached_methods  = ["GET", "HEAD"]
-    compress        = true
-
-    forwarded_values {
-      query_string = false
-      cookies {
-        forward = "none"
-      }
-    }
-
-    min_ttl     = 0
-    default_ttl = 3600
-    max_ttl     = 86400
-  }
-
-  ordered_cache_behavior {
-    path_pattern           = "/"
-    target_origin_id       = "94102108-TFT-ALB"
-    viewer_protocol_policy = "redirect-to-https"
-
-    allowed_methods = ["GET", "HEAD"]
-    cached_methods  = ["GET", "HEAD"]
-    compress        = true
-
-    forwarded_values {
-      query_string = true
-      cookies {
-        forward = "all"
-      }
-    }
-
-    min_ttl     = 0
-    default_ttl = 3600
-    max_ttl     = 86400
-  }
-
-  viewer_certificate {
+  viewer_certificate = {
     acm_certificate_arn      = var.acm_certificate_arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
-  restrictions {
-    geo_restriction {
-      restriction_type = "none"
-    }
-  }
+  default_root_object = "index.html"
 
-  tags = {
-    Manageby    = "Terraform"
-    Environment = "TFT"
-  }
+  ordered_cache_behavior = [
+    {
+      path_pattern           = "/"
+      target_origin_id       = "94102108-TFT-ALB"
+      viewer_protocol_policy = "redirect-to-https"
+
+      allowed_methods = ["GET", "HEAD"]
+      cached_methods  = ["GET", "HEAD"]
+      compress        = true
+      query_string    = true
+
+      forwarded_values = {
+        query_string = true
+        cookies = {
+          forward = "all"
+        }
+      }
+    }
+  ]
   
-  depends_on = [aws_cloudfront_origin_access_control.oac]
+  tags = {
+    Manageby = "Terraform"
+}
 }
 
-
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = "OAC_TFT"
-  description                       = "OAC for Cloudfront TFT"
+  name                              = "OAC_Trio"
+  description                       = "OAC for Cloudfront Trio"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"
