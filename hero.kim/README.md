@@ -1,8 +1,17 @@
-# FIFO 버전 기록
+# Module 설명 
 
-### 24.08.19 - Version 1.0.0-beta
-- 테스트 버전 첫 배포
+## VPC
+- 필수 : name, cidr, az, subnets
 
-### 24.09.01 - Version 1.0.1-beta
-- 일부 UI 변경 및 게시글 좋아요 버그 수정
+### variables.tf
+- vpc-cidr
+- az : 변동 가능
+- public-subnets : 내가 사용할 퍼블릭 범위나 갯수
+- private-subnets : 내가 사용할 프라이빗 범위나 갯수
+- nat-gateway : 기본값은 true
+
+### outputs.tf
+- vpc_id : 다른 모듈에서 vpc를 사용할때 
+- public-subnets
+- private-subnets
 
