@@ -3,12 +3,6 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "bastion_cidr" {
-  description = "CIDR blocks for Bastion SSH access"
-  type        = list(string)
-  default     = ["27.122.140.10/32", "165.243.5.20/32"]
-}
-
 variable "web_ip" {
   description = "IP address of the WAS instance"
   type        = string

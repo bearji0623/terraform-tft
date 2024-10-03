@@ -9,6 +9,7 @@
 
 ### output.tf(필수 아님)
 - 사용자가 생성한 리소스의 모듈의 값을 도출하여 다른 모듈에서 사용하게 해주는 파일
+![이미지](./outputs.png)
 
 ## VPC
 - 필수 : name, cidr, az, subnets
@@ -25,6 +26,7 @@
     single_nat_gateway : nat_gateway를 1개 사용할 것인지?
 
     one_nat_gateway_per_az : 가용영역 당 nat_gateway를 사용할 것인지?
+
 ### variables.tf
 - vpc_cidr : vpc 범위 -> 10.10.0.0/20
 - availability_zone : 가용 영역 -> ap-northeast-2a, ap-northeast-2c 
@@ -37,7 +39,24 @@
 - private_subnets : 다른 모듈에서 서브넷을 필요로 할때 (ex. alb 생성, rds 생성)
 
 ## Security Group
-- 
+- 필수 : vpc, ingress, egress ,cider blocks
+
+### main.tf
+- vpc_id : 생성할 보안그룹이 속할 vpc
+- ingress & egress
+
+    인바운드 & 아웃바운드 : 사용할 포트와 프로토콜을 지정할 수 있음(프로토콜 -1은 모든 트래픽)
+    
+    cider_blocks : 어떤 ip를 소스를 넣어줄 것인지 설정 가능
+
+    security_groups : ip뿐만 아니라 생성한 보안그룹을 소스로 설정 가능
+
+### variables.tf
+- vpc_id : vpc 모듈에서 도출한 vpc 값
+- web_ip & web1_ip : ec2 모듈에서 도출한 ec2 값으로, WAS 보안그룹 생성할때 사용
+
+### outputs.tf
+- sg_id : 각각의 보안그룹의 id로 ec2를 생성할때 해당 보안그룹을 사용하거나, alb나 rds 등 다른 리소르르 생성할때 필요한 보안그룹  
 
 ## EC2
 - 필수 : name, instance type, key, security group, subnet 
@@ -62,4 +81,3 @@
 - web_ip : 보안그룹 생성할때 ip를 넣어주기 위한 값
 - was_ip : 메인 디렉토리의 outputs.tf에서 참조할 값
 - instance_id : alb나 nlb의 대상그룹에 참조 가능
-![이미지](./outputs.png)
