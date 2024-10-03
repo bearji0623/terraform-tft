@@ -36,8 +36,8 @@
 
 ### outputs.tf
 - vpc_id : 다른 모듈에서 vpc를 사용할때 (ex. alb 생성, rds 생성) 
-- public_subnets : 다른 모듈에서 서브넷을 필요로 할때 (ex. alb 생성, rds 생성)
-- private_subnets : 다른 모듈에서 서브넷을 필요로 할때 (ex. alb 생성, rds 생성)
+- public_subnets : 다른 모듈에서 퍼브릭 서브넷을 필요로 할때 (ex. alb 생성, rds 생성)
+- private_subnets : 다른 모듈에서 프라이빗 서브넷을 필요로 할때 (ex. alb 생성, rds 생성)
 
 ## Security Group
 - 필수 : vpc, ingress, egress ,cider blocks

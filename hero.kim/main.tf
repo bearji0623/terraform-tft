@@ -61,7 +61,7 @@ module "acm" {
     aws.virginia = aws.virginia
   }
   domain_name     = "94102108.btiucloud.com"
-  route53_zone_id = "Z0668592GCRH4LPCX73B"
+  route53_zone_id = var.route53_zone_id
 }
 
 module "cdn" {
