@@ -48,7 +48,7 @@
 
     인바운드 & 아웃바운드 : 사용할 포트와 프로토콜을 지정할 수 있음(프로토콜 -1은 모든 트래픽)
     
-    cider_blocks : 어떤 ip를 소스를 넣어줄 것인지 설정 가능
+    cider_blocks : 어떤 ip를 소스로 넣어줄 것인지 설정 가능
 
     security_groups : ip뿐만 아니라 생성한 보안그룹을 소스로 설정 가능
 
@@ -82,3 +82,17 @@
 - web_ip : 보안그룹 생성할때 ip를 넣어주기 위한 값
 - was_ip : 메인 디렉토리의 outputs.tf에서 참조할 값
 - instance_id : alb나 nlb의 대상그룹에 참조 가능
+
+## ALB & NLB
+- 필수 : internal, load_balancer_type, subnets, security_groups
+- 구성 요소 : alb, 리스너, 리스너규칙, 대상그룹, 대상그룹 연결
+
+### main.tf
+- internal
+- load_balancer_type
+- subnets
+- security_groups
+
+### variables.tf
+
+### outputs.tf
