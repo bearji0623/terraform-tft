@@ -40,13 +40,6 @@ module "s3" {
   cloudfront_distribution_arn   = module.cdn.cloudfront_distribution_arn
 }
 
-module "rds" {
-  source                = "./rds"
-  vpc_id                 = module.vpc.vpc_id
-  private_subnets        = module.vpc.private_subnets
-  rds_sg_id              = module.security_groups.rds_sg_id 
-}
-
 module "route53" {
   source                                   = "./r53"
   route53_zone_id                          = "Z0668592GCRH4LPCX73B"
@@ -81,6 +74,20 @@ module "waf" {
   }
 }
 
+data "aws_acm_certificate" "acm" {
+  domain   = "*.btiucloud.com"  # ACM 인증서에 연결된 도메인 이름
+  most_recent = true  # 최신의 인증서를 선택
+}
+
+##########################
+/*
+module "rds" {
+  source                = "./rds"
+  vpc_id                 = module.vpc.vpc_id
+  private_subnets        = module.vpc.private_subnets
+  rds_sg_id              = module.security_groups.rds_sg_id 
+}
+
 module "dev" {
   source = "./iam/dev"
 }
@@ -88,8 +95,4 @@ module "dev" {
 module "prod" {
   source = "./iam/prod"
 }
-
-data "aws_acm_certificate" "acm" {
-  domain   = "*.btiucloud.com"  # ACM 인증서에 연결된 도메인 이름
-  most_recent = true  # 최신의 인증서를 선택
-}
+*/

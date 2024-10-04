@@ -85,4 +85,3 @@ module "ec2_instance4" {
     Manageby = "Terraform"
   }
 }
-

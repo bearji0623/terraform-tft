@@ -26,13 +26,8 @@ sudo systemctl status mysqld
 mkdir -p /var/lib/tomcat9/webapps/ROOT
 
 # Replace the content of index.jsp with the new content
-cat <<EOL > /var/lib/tomcat9/webapps/ROOT/index.jsp
-<%@ page contentType="text/html; charset=UTF-8"%>
-<html>
-      <head><title>This is WAS2</title></head>
-      <body>
-          WAS-Second TEST
-          TIME IS <%= new java.util.Date()%>
-      </body>
-</html>
-EOL
+sudo wget https://github.com/startbootstrap/startbootstrap-sb-admin/archive/gh-pages.zip -O startbootstrap.zip
+sudo unzip startbootstrap.zip -d /var/lib/tomcat9/webapps/ROOT/
+
+sudo mv /var/lib/tomcat9/webapps/ROOT/startbootstrap-sb-admin-gh-pages/* /var/lib/tomcat9/webapps/ROOT/
+sudo rm -rf /var/lib/tomcat9/webapps/ROOT/startbootstrap-sb-admin-gh-pages/
