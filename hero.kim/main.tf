@@ -19,6 +19,13 @@ module "ec2" {
   nlb_dns_name           = module.nlb.nlb_dns_name  
 }
 
+module "rds" {
+  source                = "./rds"
+  vpc_id                 = module.vpc.vpc_id
+  private_subnets        = module.vpc.private_subnets
+  rds_sg_id              = module.security_groups.rds_sg_id 
+}
+
 module "alb" {
   source                 = "./alb"
   vpc_id                 = module.vpc.vpc_id
@@ -80,13 +87,6 @@ data "aws_acm_certificate" "acm" {
 }
 
 ##########################
-/*
-module "rds" {
-  source                = "./rds"
-  vpc_id                 = module.vpc.vpc_id
-  private_subnets        = module.vpc.private_subnets
-  rds_sg_id              = module.security_groups.rds_sg_id 
-}
 
 module "dev" {
   source = "./iam/dev"
@@ -95,4 +95,3 @@ module "dev" {
 module "prod" {
   source = "./iam/prod"
 }
-*/

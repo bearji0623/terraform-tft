@@ -1,4 +1,3 @@
-/*
 # dev 그룹 생성 및 정책 연결
 resource "aws_iam_group" "dev" {
   name = "dev"
@@ -60,4 +59,3 @@ resource "aws_iam_user_login_profile" "test_login1" {
   password_length = 8  # 자동 생성될 비밀번호 길이
   password_reset_required = true
 }
-*/
