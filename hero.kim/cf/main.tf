@@ -1,6 +1,6 @@
 module "cdn" {
   source  = "terraform-aws-modules/cloudfront/aws"
-  version = "2.3.0"
+  version = "3.4.0"
 
   aliases = var.aliases
   comment             = "CloudFront_TFT"
@@ -15,7 +15,7 @@ module "cdn" {
     target_origin_id       = "94102108-tft-s3"
     viewer_protocol_policy = "redirect-to-https"
 
-    allowed_methods = ["GET", "HEAD"]
+    allowed_methods = ["GET", "HEAD", "OPTIONS", "PUT", "POST", "DELETE", "PATCH"]
     cached_methods  = ["GET", "HEAD"]
     compress        = true
     query_string    = true
@@ -33,10 +33,8 @@ module "cdn" {
     domain_name = var.s3_origin_domain_name
     origin_id   = "94102108-tft-s3"
     origin_path = "/test"  # S3 원본의 루트 경로 사용 또는 유효한 경로 지정
-    s3_oac = {
-      domain_name              = var.s3_origin_domain_name
-      origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
-    }
+    domain_name              = var.s3_origin_domain_name
+    origin_access_control_id = aws_cloudfront_origin_access_control.oac.id
   },
   {
     domain_name = var.alb_dns_name
@@ -87,8 +85,8 @@ module "cdn" {
 }
 
 resource "aws_cloudfront_origin_access_control" "oac" {
-  name                              = "OAC_Trio"
-  description                       = "OAC for Cloudfront Trio"
+  name                              = "TFT"
+  description                       = "OAC for Cloudfront TFT"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
   signing_protocol                  = "sigv4"

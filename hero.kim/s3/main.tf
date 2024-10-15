@@ -11,8 +11,6 @@ module "s3_bucket_for_logs" {
   control_object_ownership = true
   object_ownership         = "ObjectWriter"
 
-  attach_elb_log_delivery_policy = false
-
   tags = {
     Manageby = "Terraform"
   }
@@ -29,24 +27,6 @@ resource "aws_s3_bucket_policy" "bucket_policy_web" {
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
-      {
-        Sid = "ELBRegionAp-Northeast-2",
-        Effect = "Allow",
-        Principal = {
-          AWS = "arn:aws:iam::600734575887:root"
-        },
-        Action = "s3:PutObject",
-        Resource = "arn:aws:s3:::${module.s3_bucket_for_logs.s3_bucket_id}/alb-logs/*"
-      },
-      {
-        Sid = "AllowLogDelivery",
-        Effect = "Allow",
-        Principal = {
-          Service = "logdelivery.elasticloadbalancing.amazonaws.com"
-        },
-        Action = "s3:PutObject",
-        Resource = "arn:aws:s3:::${module.s3_bucket_for_logs.s3_bucket_id}/alb-logs/*"
-      },
       {
         Sid = "AllowCloudFrontServicePrincipal",
         Effect = "Allow",

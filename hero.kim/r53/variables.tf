@@ -8,12 +8,12 @@ variable "domain_name" {
   type        = string
 }
 
-variable "alb_domain_name" {
+variable "cloudfront_distribution_domain_name" {
   description = "The domain name of the CloudFront distribution"
   type        = string
 }
 
-variable "alb_hosted_zone_id" {
+variable "cloudfront_distribution_hosted_zone_id" {
   description = "The hosted zone ID for CloudFront"
   type        = string
 }

@@ -8,8 +8,8 @@ resource "aws_route53_record" "alb" {
   type    = "A"
 
   alias {
-    name                   = var.alb_domain_name
-    zone_id                = var.alb_hosted_zone_id
+    name                   = var.cloudfront_distribution_domain_name
+    zone_id                = var.cloudfront_distribution_hosted_zone_id
     evaluate_target_health = true
   }
 }
